@@ -75,5 +75,84 @@ curl -X POST http://localhost:11434/api/generate -d '{
 }'
 ````
 
+# 6. Consultar a groq
 
+Estructura basica para realizar una consulta a groq mediante API REST
 
+````Bash
+curl "https://api.groq.com/openai/v1/chat/completions" \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ${GROQ_API_KEY}" \
+  -d '{
+         "messages": [
+           {
+             "role": "user",
+             "content": "por que el cielo es azul?"
+           }
+         ],
+         "model": "llama3-8b-8192",
+         "stream": false
+       }'
+
+````
+
+Se debe exportar antes 
+````Bash
+
+export GROQ_API_KEY=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
+
+````
+
+#  7. Importar libreria de python
+
+Se importa la libreria Requests se toma de la pagina (https://www.w3schools.com/python/ref_requests_post.asp).
+
+````Bash
+import requests
+
+url = 'https://www.w3schools.com/python/demopage.php'
+myobj = {'somekey': 'somevalue'}
+
+x = requests.post(url, json = myobj)
+
+print(x.text)
+
+````
+- Se adapta a lo que funcionaba pasandolo a python.
+
+````Bash
+
+import requests
+
+url = 'http://localhost:11434/api/generate'
+myobj = {
+    "model": "tinyllama",
+    "prompt": "Why is the sky blue?",
+    "stream": False
+}
+
+x = requests.post(url, json = myobj)
+
+print(x.text)
+
+````
+- Luego se agrega la libreria jason para mostrar en pantalla unicamente el response.
+
+````Bash
+import requests
+import json
+
+url = 'http://localhost:11434/api/generate'
+myobj = {
+    "model": "tinyllama",
+    "prompt": "Why is the sky blue?",
+    "stream": False
+}
+
+x = requests.post(url, json = myobj)
+x = json.loads(x.text)
+
+print(x["response"])
+
+````
